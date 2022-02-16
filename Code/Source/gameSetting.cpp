@@ -24,7 +24,7 @@ namespace game {
 		   @Date: 2022/02/11 
 		   The process in the game*/
 
-
+		cout << endl;
 		cout << "請輸入這一局的底注金額 :\t";
 		cin >> baseBet;
 
@@ -50,28 +50,37 @@ namespace game {
 		cout << "即將開始遊戲!";
 		dots(5);
 		cout << endl;
+		
 
 		while(stakesPool>0) 
 		{
-			for (Player p : ppl)
+			for (Player& p : ppl)
 			{
 				int weight = 0;
 				Card card1 = card.draw();
 				Card card2 = card.draw();
-				cout << p.getName() << " :    " << card1 << "\t" << card2 << endl;
+				cout << endl;
+				cout << p.getName() << " :\t" << card1 << "\t" << card2 << endl;
+				cout << endl;
 
+				/*cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');*/
 				cout << "請問要補牌or放棄這一輪?\tp: 補牌並跟注\tl: 放棄這一輪    ";
 				char comm;
 				cin >> comm;
 
 				int count1 = 0;
-				while ((tolower(comm) != 'p') && (tolower(comm) == 'l') && (count1 < 1))
+				while ((tolower(comm) != 'p') && (tolower(comm) != 'l') && (count1 < 1))
 				{
 					cout << "輸入錯誤，再次錯誤將直接視同放棄這一輪" << endl;
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
 					cout << "請問要補牌or放棄這一輪?\tp: 補牌並跟注\tl: 放棄這一輪    ";
 					cin >> comm;
 					count1++;
 				}
+
+				cout << endl;
 
 				if (tolower(comm) == 'p')
 				{
@@ -87,27 +96,37 @@ namespace game {
 						cin >> bet;
 					}
 
-					while ((bet > stakesPool) || (bet < baseBet))
+					while (bet > stakesPool)
 					{
-						cout << "跟注不可少於底注金額或大於獎池金額，請重新輸入 !\t";
+						cin.clear();
+						cin.ignore(numeric_limits<streamsize>::max(), '\n');
+						cout << "跟注不可大於獎池金額，請重新輸入 !\t";
 						cin >> bet;
 					}
 
+					cout << endl;
+
 					if (card1.num == card2.num)
 					{
-						cout << "請問要賭比" << card1.num << "大還是比" << card1.num << "小?\tb: 大  s: 小";
+						cout << "請問要賭比" << card1.num << "大還是比" << card1.num << "小?\tb: 大  s: 小\t";
 						char BorS;
 						cin >> BorS;
 
 						int count2 = 0;
-						while (!(tolower(BorS) == 'b') || !(tolower(BorS) == 's') && count2 < 1) {
+						while ((tolower(BorS) != 'b') && (tolower(BorS) != 's') && count2 < 1) {
+
 							cout << "輸入錯誤，再次錯誤將直接視同放棄這一輪" << endl;
-							cout << "請問要賭比" << card1.num << "大還是比" << card1.num << "小?\tb: 大  s: 小";
+							cin.clear();
+							cin.ignore(numeric_limits<streamsize>::max(), '\n');
+							cout << "請問要賭比" << card1.num << "大還是比" << card1.num << "小?\tb: 大  s: 小\t";
 							count2++;
 						}
 
+						cout << endl;
+
 						Card card3 = card.draw();
 						cout << card3 << endl;
+						cout << endl;
 
 						bool winCase1 = (tolower(BorS) == 'b') && (card3.num > card1.num);
 						bool winCase2 = (tolower(BorS) == 's') && (card3.num < card1.num);
@@ -132,7 +151,7 @@ namespace game {
 					{
 						Card card3 = card.draw();
 						cout << card3 << endl;
-
+						cout << endl;
 						bool loseCase = ((card3.num == card1.num) || (card3.num == card2.num));
 						bool winCase1 = ((card3.num < card1.num) && (card3.num > card2.num));	//(card1.num > card2.num)
 						bool winCase2 = ((card3.num > card1.num) && (card3.num < card2.num));	//(card1.num < card2.num)
@@ -169,6 +188,7 @@ namespace game {
 				if (stakesPool == 0)
 				{
 					cout << "獎池已歸零，直接進入下一局" << endl;
+					baseBet = 0;
 					break;
 				}
 				cout << "============================================" << endl;
@@ -192,7 +212,7 @@ namespace game {
 
 		cout << setw(49) << "|目前收支平衡狀況" << "|" << endl;
 
-		for (Player p : ppl)
+		for (Player& p : ppl)
 		{
 			string s1 = "| " + p.getName() + " : " + to_string(p.getBalance());
 			cout << setw(49) << s1 << "|" << endl;
@@ -216,8 +236,9 @@ namespace game {
 		   @Version:1.0
 		   @Date: 2022/02/11	*/
 
-		cout << "請輸入參與人數(2~10人) : ";
+		
 
+		cout << "請輸入參與人數(2~10人) : ";
 		cin >> numOfPpl;
 		cout << endl;
 		sleep_for(1s);
@@ -245,7 +266,7 @@ namespace game {
 
 			ppl.push_back(Player(name));
 			cout << endl;
-			sleep_for(1s);
+			//sleep_for(1s);
 		}
 
 		cout << "HI! ";
@@ -254,7 +275,7 @@ namespace game {
 			cout << p.getName() << " ";
 
 		cout << endl;
-		sleep_for(1s);
+		//sleep_for(1s);
 	}
 
 	void win(Player& p, int bet) {
@@ -265,8 +286,8 @@ namespace game {
 
 		stakesPool -= bet;
 		p.addEarning(bet);
-		cout << p.getName() << "  您贏了 " << bet << "元，目前收支平衡為 :" << p.getBalance() << "元" << endl;
-		cout << "獎池仍有 " << stakesPool << "元" << endl;
+		cout << p.getName() << "  您贏了 " << bet << "元，目前收支平衡為 :" << p.getBalance() << "元\t" << "獎池仍有 " << stakesPool << "元" << endl;
+		cout << endl;
 	}
 
 	void lose(Player& p, int bet, int weight) {
@@ -278,8 +299,27 @@ namespace game {
 		int amount = -(bet * weight);  // (bet * weight) will be a negative number
 		stakesPool += amount;
 		p.addPaying(amount);
-		cout << p.getName() << "  您損失了 " << amount << "元，目前收支平衡為 :" << p.getBalance() << "元" << endl;
-		cout << "獎池仍有 " << stakesPool << "元" << endl;
+		cout << p.getName() << "  您損失了 " << amount << "元，目前收支平衡為 :" << p.getBalance() << "元\t" << "獎池仍有 " << stakesPool << "元" << endl;
+		cout << endl;
+	}
+
+	void frame(string s) {
+		
+		cout.width(50);
+		cout.fill('-');
+		cout << setiosflags(ios::left);
+		cout << setw(49) << "+" << "+" << endl;			//frame
+		cout.fill(' ');
+				
+		cout << setw(49) << "|" + s << "|" << endl;
+
+		cout.fill('-');
+		cout << setw(49) << "+" << "+" << endl;			//frame
+		cout.fill(' ');
+		cout << endl;
+		cout << resetiosflags(ios::left);
+
+	
 	}
 
 	void sleepAndDot(int times) {

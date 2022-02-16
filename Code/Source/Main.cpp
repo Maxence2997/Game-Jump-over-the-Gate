@@ -3,6 +3,7 @@
 #include "Player.h"
 #include <thread>
 #include "gameSetting.h"
+#include <iomanip>
 using std::cout;
 using std::cin;
 using std::string;
@@ -20,16 +21,34 @@ typedef struct _Card Card;
 
 int main() {
 
-	cout << "歡迎來到射龍門遊戲!" << endl;
-	cout << endl;
+	//cout.width(50);
+	//cout.fill('-');
+	//cout << setiosflags(ios::left);
+	//cout << setw(49) << "+" << "+" << endl;			//frame
+	//cout.fill(' ');
+
+	//cout << setw(49) << "| 歡迎來到射龍門遊戲!" << "|" << endl;
+
+	//cout.fill('-');
+	//cout << setw(49) << "+" << "+" << endl;			//frame
+	//cout.fill(' ');
+	//cout << endl;
+	//cout << resetiosflags(ios::left);
+	//cout << endl;
+
+	frame(" 歡 迎 來 到 射 龍 門 遊 戲 !");
 
 	setPlayers();
 		
 	for (int i = 0;; i++)
 	{
-		cout << "================  第 " << i + 1 << " 局  ================" << endl;
-		sleepAndDot(5);
 		cout << endl;
+		string s = "                   第 " + to_string(i + 1) + " 局";
+		frame(s);
+		//cout << "================  第 " << i + 1 << " 局  ================" << endl;
+
+		//sleepAndDot(5);
+		//cout << endl;
 		cout << "請輸入指令:\ti: 開始遊戲!\tq: 離開並結算!\t按任意鍵查看目前的收支平衡";
 		cout << endl;
 		char command;

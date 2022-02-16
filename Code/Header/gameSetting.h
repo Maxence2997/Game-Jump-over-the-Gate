@@ -18,6 +18,6 @@ namespace game {
 	void lose(Player& p, int bet, int weight);
 	void sleepAndDot(int times);
 	void dots(int times);
-
+	void frame(string s);
 }	
 #endif
