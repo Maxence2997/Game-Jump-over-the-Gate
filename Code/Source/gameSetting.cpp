@@ -119,6 +119,7 @@ namespace game {
 							cin.clear();
 							cin.ignore(numeric_limits<streamsize>::max(), '\n');
 							cout << "請問要賭比" << card1.num << "大還是比" << card1.num << "小?\tb: 大  s: 小\t";
+							cin >> BorS;
 							count2++;
 						}
 
