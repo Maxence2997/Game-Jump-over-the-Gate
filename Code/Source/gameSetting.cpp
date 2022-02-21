@@ -42,7 +42,7 @@ namespace game {
 		sleep_for(1s);
 		cout << endl;
 
-		for (Player p : ppl)
+		for (Player& p : ppl)
 			p.addPaying(baseBet);
 
 		stakesPool = numOfPpl * baseBet;
